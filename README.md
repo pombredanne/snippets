@@ -9,3 +9,32 @@ entries on a weekly basis. By allowing users of this web application to
 subscribe to others, they may receive weekly reports of all snippets
 written that week. Work on this utility was inspired by
 [an identically named tool in use at Google](https://www.inc.com/jessica-stillman/a-simple-productivity-tip-from-googles-early-days.html).
+
+# Running Snippets
+
+1. Create a PostgreSQL or [CockroachDB](https://www.cockroachlabs.com/)
+   database with the tables specified in `database_schema.sql`.
+1. Build and push Docker container images using [Bazel](https://bazel.build/):
+   ```sh
+vi container.bzl  # Edit registry path.
+bazel build //...
+for i in $(bazel query //... | grep '_push$'); do
+    bazel run $i
+done
+```
+1. Run the `snippets_web` container to enable the Snippets web application.
+   Place an authenticating proxy, such as
+   [keycloak-proxy](https://github.com/gambol99/keycloak-proxy) in front of it
+   that at least sets the headers `X-Auth-Subject`, `X-Auth-Name` and
+   `X-Auth-Email`, containing the user's username, real name and email
+   address, respectively.
+1. Set up a cronjob that runs the `snippets_cron_reminders` container on
+   Fridays to send weekly reminders to users of the service, so that
+   they don't forget to write a snippet.
+1. Set up a cronjob that runs the `snippets_cron_subscriptions`
+   container on Mondays to send copies of snippets written in the
+   previous week to subscribers.
+
+Each of the containers can be configured by providing command line
+flags. Please refer to the `main.go` source files or start the
+containers with `-help` to get a list of supported command line flags.
