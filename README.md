@@ -16,12 +16,12 @@ written that week. Work on this utility was inspired by
    database with the tables specified in `database_schema.sql`.
 1. Build and push Docker container images using [Bazel](https://bazel.build/):
    ```sh
-vi container.bzl  # Edit registry path.
-bazel build //...
-for i in $(bazel query //... | grep '_push$'); do
-    bazel run $i
-done
-```
+   vi container.bzl  # Edit registry path.
+   bazel build //...
+   for i in $(bazel query //... | grep '_push$'); do
+       bazel run $i
+   done
+   ```
 1. Run the `snippets_web` container to enable the Snippets web application.
    Place an authenticating proxy, such as
    [keycloak-proxy](https://github.com/gambol99/keycloak-proxy) in front of it
