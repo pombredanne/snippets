@@ -1,0 +1,35 @@
+load("//:container.bzl", "container_push_internal")
+load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["main.go"],
+    importpath = "github.com/ProdriveTechnologies/snippets/cmd/snippets_cron_reminders",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//pkg/dates:go_default_library",
+        "//pkg/schema:go_default_library",
+        "//vendor/github.com/jinzhu/gorm:go_default_library",
+        "//vendor/github.com/jinzhu/gorm/dialects/postgres:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "snippets_cron_reminders",
+    embed = [":go_default_library"],
+    pure = "on",
+    visibility = ["//visibility:public"],
+)
+
+container_image(
+    name = "snippets_cron_reminders_container",
+    entrypoint = ["/snippets_cron_reminders"],
+    files = [":snippets_cron_reminders"],
+)
+
+container_push_internal(
+    name = "snippets_cron_reminders_push",
+    image = ":snippets_cron_reminders_container",
+    repository = "snippets_cron_reminders",
+)

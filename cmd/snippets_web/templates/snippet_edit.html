@@ -1,0 +1,46 @@
+{{template "header.html" "You"}}
+
+<h1 class="my-3">Your snippets</h1>
+
+{{template "snippet_week_navigate.html" .}}
+
+<form method="post" onsubmit="SubmitForm()">
+	<h2 class="my-3">What have you been up to this week?</h2>
+	<section id="body_this_week_section" contenteditable="true">
+		<ul>
+			{{if .BodyThisWeek}}
+				{{range .BodyThisWeek}}
+					<li>{{.}}</li>
+				{{end}}
+			{{else}}
+				<li></li>
+			{{end}}
+		</ul>
+	</section>
+	<input type="hidden" id="body_this_week" name="body_this_week" value=""/>
+
+	<h2 class="my-3">What are your plans for next week?</h2>
+	<section id="body_next_week_section" contenteditable="true">
+		<ul>
+			{{if .BodyNextWeek}}
+				{{range .BodyNextWeek}}
+					<li>{{.}}</li>
+				{{end}}
+			{{else}}
+				<li></li>
+			{{end}}
+		</ul>
+	</section>
+	<input type="hidden" id="body_next_week" name="body_next_week" value=""/>
+
+	<button type="submit" class="btn btn-primary mb-3">Save changes</button>
+</form>
+
+<script>
+function SubmitForm() {
+	document.getElementById("body_this_week").value = document.getElementById("body_this_week_section").innerHTML;
+	document.getElementById("body_next_week").value = document.getElementById("body_next_week_section").innerHTML;
+}
+</script>
+
+{{template "footer.html"}}

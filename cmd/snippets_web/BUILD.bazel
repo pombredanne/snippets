@@ -1,0 +1,51 @@
+load("//:container.bzl", "container_push_internal")
+load("@io_bazel_rules_docker//container:container.bzl", "container_image", "container_push")
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "main.go",
+        "snippets_web_service.go",
+    ],
+    importpath = "github.com/ProdriveTechnologies/snippets/cmd/snippets_web",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//pkg/dates:go_default_library",
+        "//pkg/schema:go_default_library",
+        "//pkg/util:go_default_library",
+        "//vendor/github.com/gorilla/mux:go_default_library",
+        "//vendor/github.com/jinzhu/gorm:go_default_library",
+        "//vendor/github.com/jinzhu/gorm/dialects/postgres:go_default_library",
+        "//vendor/github.com/prometheus/client_golang/prometheus/promhttp:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "snippets_web",
+    embed = [":go_default_library"],
+    pure = "on",
+    visibility = ["//visibility:public"],
+)
+
+container_image(
+    name = "snippets_web_container",
+    entrypoint = ["/snippets_web"],
+    files = [":snippets_web"],
+)
+
+container_image(
+    name = "snippets_web_container_with_resources",
+    base = ":snippets_web_container",
+    data_path = ".",
+    files = glob([
+        "static/**",
+        "templates/**",
+    ]),
+)
+
+container_push_internal(
+    name = "snippets_web_push",
+    image = ":snippets_web_container_with_resources",
+    repository = "snippets_web",
+)

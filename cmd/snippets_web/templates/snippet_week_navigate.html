@@ -1,0 +1,29 @@
+<nav>
+	<ul class="pagination">
+		{{if .PreviousWeek}}
+			<li class="page-item">
+				<a class="page-link" href="{{.PreviousWeek}}">&lsaquo;</a>
+			</li>
+		{{else}}
+			<li class="page-item disabled">
+				<a class="page-link">&lsaquo;</a>
+			</li>
+		{{end}}
+		<li style="white-space: nowrap; overflow: hidden" class="page-item {{if not .NextWeek}}active{{end}}"><a class="page-link" href="{{.CurrentWeek}}">{{.CurrentWeek}}: {{.CurrentWeekFirstDay}} to {{.CurrentWeekLastDay}}</a></li>
+		{{if .NextWeek}}
+			<li class="page-item">
+				<a class="page-link" href="{{.NextWeek}}">&rsaquo;</a>
+			</li>
+			<li class="page-item">
+				<a class="page-link" href="{{.LastWeek}}">&raquo;</a>
+			</li>
+		{{else}}
+			<li class="page-item disabled">
+				<a class="page-link">&rsaquo;</a>
+			</li>
+			<li class="page-item disabled">
+				<a class="page-link">&raquo;</a>
+			</li>
+		{{end}}
+	</ul>
+</nav>

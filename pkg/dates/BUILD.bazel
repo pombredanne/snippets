@@ -1,0 +1,9 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["iso_week.go"],
+    importpath = "github.com/ProdriveTechnologies/snippets/pkg/dates",
+    visibility = ["//visibility:public"],
+    deps = ["//vendor/github.com/snabb/isoweek:go_default_library"],
+)

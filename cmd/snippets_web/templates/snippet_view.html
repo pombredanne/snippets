@@ -1,0 +1,47 @@
+{{template "header.html" "Others"}}
+
+<h1 class="my-3">{{.RealName}}'s snippets</h1>
+
+{{template "snippet_week_navigate.html" .}}
+
+{{if or .BodyThisWeek .BodyNextWeek}}
+	{{if not .NextWeek}}
+		<div class="alert alert-warning">
+			As this week is in progress, {{.RealName}} may still be working on this snippet.
+		</div>
+	{{end}}
+
+	{{if .BodyThisWeek}}
+		<h2 class="my-3">What has {{.RealName}} been up to this week?</h2>
+		<ul>
+			{{range .BodyThisWeek}}
+				<li>{{.}}</li>
+			{{end}}
+		</ul>
+	{{end}}
+
+	{{if .BodyNextWeek}}
+		<h2 class="my-3">What are {{.RealName}}'s plans for next week?</h2>
+		<ul>
+			{{range .BodyNextWeek}}
+				<li>{{.}}</li>
+			{{end}}
+		</ul>
+	{{end}}
+{{else}}
+	<div class="alert alert-info">
+		{{.RealName}} hasn't written a snippet this week.
+	</div>
+{{end}}
+
+{{if .Subscribed}}
+	<form action="unsubscribe" method="post">
+		<button type="submit" class="btn btn-light mb-3">Unsubscribe from {{.RealName}}'s snippets</button>
+	</form>
+{{else}}
+	<form action="subscribe" method="post">
+		<button type="submit" class="btn btn-light mb-3">Subscribe to {{.RealName}}'s snippets</button>
+	</form>
+{{end}}
+
+{{template "footer.html"}}
