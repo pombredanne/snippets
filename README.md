@@ -1,7 +1,7 @@
 # Snippets
 
 <p align="center">
-  <img src="https://github.com/ProdriveTechnologies/snippets/raw/master/screenshot.png" alt="Screenshot of the Snippets web application"/>
+  <img src="https://github.com/ProdriveTechnologies/snippets/raw/master/screenshot.png" alt="Screenshot of the Snippets web application" style="transform: scale(0.5, 0.5)"/>
 </p>
 
 Snippets is a small web application that can be used to track diary
