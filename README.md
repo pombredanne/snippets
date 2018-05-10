@@ -38,3 +38,9 @@ written that week. Work on this utility was inspired by
 Each of the containers can be configured by providing command line
 flags. Please refer to the `main.go` source files or start the
 containers with `-help` to get a list of supported command line flags.
+
+# Background
+
+Snippets has been written by Ed Schouten and Mickaël Carl for use at
+Prodrive Technologies B.V. This repository is intended to act as a
+canonical example of how a Go-based application may be structured.
