@@ -12,16 +12,20 @@ written that week. Work on this utility was inspired by
 
 # Running Snippets
 
-1. Create a PostgreSQL or [CockroachDB](https://www.cockroachlabs.com/)
-   database with the tables specified in `database_schema.sql`.
-1. Build and push Docker container images using [Bazel](https://bazel.build/):
+1. Create your own [Bazel](https://bazel.build/) workspace similar to
+   the one provided in the `example-workspace/` directory that contains
+   `container_push()` directives to push Docker containers of the
+   individual applications into your own Docker registry.
+1. Run the following commands in your Bazel workspace to push the
+   container images:
    ```sh
-   vi container.bzl  # Edit registry path.
    bazel build //...
    for i in $(bazel query //... | grep '_push$'); do
        bazel run $i
    done
    ```
+1. Create a PostgreSQL or [CockroachDB](https://www.cockroachlabs.com/)
+   database with the tables specified in `database_schema.sql`.
 1. Run the `snippets_web` container to enable the Snippets web application.
    Place an authenticating proxy, such as
    [keycloak-proxy](https://github.com/gambol99/keycloak-proxy) in front of it
