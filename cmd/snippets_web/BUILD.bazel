@@ -1,4 +1,3 @@
-load("//:container.bzl", "container_push_internal")
 load("@io_bazel_rules_docker//container:container.bzl", "container_image", "container_push")
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 
@@ -25,7 +24,7 @@ go_binary(
     name = "snippets_web",
     embed = [":go_default_library"],
     pure = "on",
-    visibility = ["//visibility:public"],
+    visibility = ["//visibility:private"],
 )
 
 container_image(
@@ -42,10 +41,5 @@ container_image(
         "static/**",
         "templates/**",
     ]),
-)
-
-container_push_internal(
-    name = "snippets_web_push",
-    image = ":snippets_web_container_with_resources",
-    repository = "snippets_web",
+    visibility = ["//visibility:public"],
 )

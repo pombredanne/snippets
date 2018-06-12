@@ -1,4 +1,3 @@
-load("//:container.bzl", "container_push_internal")
 load("@io_bazel_rules_docker//container:container.bzl", "container_image", "container_push")
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 
@@ -19,17 +18,12 @@ go_binary(
     name = "snippets_cron_subscriptions",
     embed = [":go_default_library"],
     pure = "on",
-    visibility = ["//visibility:public"],
+    visibility = ["//visibility:private"],
 )
 
 container_image(
     name = "snippets_cron_subscriptions_container",
     entrypoint = ["/snippets_cron_subscriptions"],
     files = [":snippets_cron_subscriptions"],
-)
-
-container_push_internal(
-    name = "snippets_cron_subscriptions_push",
-    image = ":snippets_cron_subscriptions_container",
-    repository = "snippets_cron_subscriptions",
+    visibility = ["//visibility:public"],
 )
