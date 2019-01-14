@@ -9,8 +9,8 @@ go_library(
     deps = [
         "//pkg/dates:go_default_library",
         "//pkg/schema:go_default_library",
-        "//vendor/github.com/jinzhu/gorm:go_default_library",
-        "//vendor/github.com/jinzhu/gorm/dialects/postgres:go_default_library",
+        "@com_github_jinzhu_gorm//:go_default_library",
+        "@com_github_jinzhu_gorm//dialects/postgres:go_default_library",
     ],
 )
 

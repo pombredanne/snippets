@@ -5,5 +5,5 @@ go_library(
     srcs = ["iso_week.go"],
     importpath = "github.com/ProdriveTechnologies/snippets/pkg/dates",
     visibility = ["//visibility:public"],
-    deps = ["//vendor/github.com/snabb/isoweek:go_default_library"],
+    deps = ["@com_github_snabb_isoweek//:go_default_library"],
 )
