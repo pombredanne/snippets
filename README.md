@@ -12,10 +12,31 @@ written that week. Work on this utility was inspired by
 
 # Running Snippets
 
-1. Create your own [Bazel](https://bazel.build/) workspace similar to
-   the one provided in the `example-workspace/` directory that contains
-   `container_push()` directives to push Docker containers of the
-   individual applications into your own Docker registry.
+1. Create your own [Bazel](https://bazel.build/) workspace that contains
+   Snippets as a dependency (either as `http_archive`, `git_repository`
+   or `go_repository`), e.g.:
+   ```python
+   http_archive(
+       name = "snippets",
+       sha256 = "<checksum of source tarball>",
+       strip_prefix = "snippets-<tag or commit>",
+       url = "https://github.com/ProdriveTechnologies/snippets/archive/<tag or commit>.tar.gz",
+   )
+   ```
+   You will also need to pull in Go dependencies from Snippets, which you
+   can find in its [WORKSPACE](https://github.com/ProdriveTechnologies/snippets/blob/master/WORKSPACE).
+   In your BUILD.bazel, add `container_push()` directives to push Docker
+   containers of the individual applications into your own Docker registry,
+   e.g.:
+   ```python
+   container_push(
+       name = "snippets_cron_reminders_push",
+       format = "Docker",
+       image = "@snippets//cmd/snippets_cron_reminders:snippets_cron_reminders_container",
+       registry = "my-docker-registry.com",
+       repository = "snippets_cron_reminders",
+   )
+   ```
 1. Run the following commands in your Bazel workspace to push the
    container images:
    ```sh
@@ -45,6 +66,6 @@ containers with `-help` to get a list of supported command line flags.
 
 # Background
 
-Snippets has been written by Ed Schouten and Mickaël Carl for use at
+Snippets has been written by @EdSchouten and @mickael-carl for use at
 Prodrive Technologies B.V. This repository is intended to act as a
 canonical example of how a Go-based application may be structured.
