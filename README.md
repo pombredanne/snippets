@@ -13,7 +13,7 @@ written that week. Work on this utility was inspired by
 # Running Snippets
 
 1. Create your own [Bazel](https://bazel.build/) workspace that contains
-   Snippets as a dependancy (either as `http_archive`, `git_repository`
+   Snippets as a dependency (either as `http_archive`, `git_repository`
    or `go_repository`), e.g.:
    ```python
    http_archive(
@@ -23,6 +23,8 @@ written that week. Work on this utility was inspired by
        url = "https://github.com/ProdriveTechnologies/snippets/archive/<tag or commit>.tar.gz",
    )
    ```
+   You will also need to pull in Go dependencies from Snippets, which you
+   can find in its [WORKSPACE](https://github.com/ProdriveTechnologies/snippets/blob/master/WORKSPACE).
    In your BUILD.bazel, add `container_push()` directives to push Docker
    containers of the individual applications into your own Docker registry,
    e.g.:
